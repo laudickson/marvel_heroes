@@ -1,0 +1,5 @@
+= form_for @new_hero do |f|
+  .small-10
+    = f.text_field :name, placeholder: "Enter Hero Name"
+  .actions
+    = f.submit "Add Hero", class: "button tiny success"

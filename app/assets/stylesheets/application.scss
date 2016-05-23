@@ -1,0 +1,36 @@
+@import 'foundation_and_overrides';
+
+#hero_table{
+	margin: 0 auto;
+	font-size: 1.2em;
+	margin-bottom: 15px;
+	thead {
+		cursor: pointer;
+		background: #c9dff0;
+		tr {
+			th {
+				font-weight: bold;
+				padding: 12px 30px;
+				padding-left: 42px;
+			}
+			th.headerSortUp {
+				background: #acc8dd;
+			}
+			th.headerSortDown {
+				background: #acc8dd;
+			}
+		}
+	}
+	tbody {
+		tr {
+			color: #555;
+			td {
+				text-align: center;
+				padding: 15px 10px;
+			}
+			lalign {
+				text-align: left;
+			}
+		}
+	}
+}

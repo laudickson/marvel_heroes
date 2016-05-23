@@ -12,4 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require foundation
 //= require_tree .
+//= require jquery-tablesorter
+
+$(function(){ $(document).foundation(); });
+
+$(function(){
+  $('#hero_table').tablesorter({ sortList: [[1,0], [2,0], [3,0]] });
+});

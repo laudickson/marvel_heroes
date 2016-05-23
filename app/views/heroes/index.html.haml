@@ -1,0 +1,28 @@
+%br
+.row
+  .small-3.columns
+    %p Add a new hero to the list!
+  .small-5.end.searchbar
+    =render template: "heroes/new.html.haml"
+%br
+.row
+  .small-12.small-centered.columns
+    #hero_list
+      %h1= "Table of logged heroes: "
+      %table#hero_table{cellspacing: "0", cellpadding: "0"}
+        %thead
+          %tr
+            %th Hero
+            %th Number of Comics
+            %th Number of Series
+            %th Number of Stories
+            %th Number of Events
+        %tbody
+          -@heroes.each do |hero|
+            %tr
+              %td.lalign
+                =link_to "#{hero.name}", hero_path(hero)
+              %td= "#{hero.comic_total}"
+              %td= "#{hero.series_total}"
+              %td= "#{hero.story_total}"
+              %td= "#{hero.event_total}"
