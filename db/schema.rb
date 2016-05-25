@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160523191528) do
     t.string "event_total"
   end
 
-  create_table "heroesevents", force: :cascade do |t|
+  create_table "meetings", force: :cascade do |t|
     t.integer "hero_id",  null: false
     t.integer "event_id", null: false
   end

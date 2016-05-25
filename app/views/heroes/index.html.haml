@@ -1,3 +1,6 @@
+- if flash[:notice]
+  .notice= flash[:notice]
+
 %br
 .row
   .small-3.columns
@@ -26,3 +29,8 @@
               %td= "#{hero.series_total}"
               %td= "#{hero.story_total}"
               %td= "#{hero.event_total}"
+.row
+  .small-12.small-centered.columns
+    %ul
+      - @events.each do |event|
+        %li= event.name

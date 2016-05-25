@@ -1,4 +1,4 @@
-class HeroesEvent < ActiveRecord::Base
+class Meeting < ActiveRecord::Base
   belongs_to :hero
   belongs_to :event
 

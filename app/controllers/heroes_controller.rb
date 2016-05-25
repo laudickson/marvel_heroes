@@ -2,6 +2,7 @@ class HeroesController < ApplicationController
   def index
     @heroes = Hero.all
     @new_hero = Hero.new
+    @events = Event.all
   end
 
   def create
@@ -30,16 +31,41 @@ class HeroesController < ApplicationController
       @new_hero.story_total = @hero_results['stories']['available']
       @new_hero.event_total = @hero_results['events']['available']
 
+      #create new event object
       #checking to see if hero has already been added
       if @new_hero.save
 
-        #if it doesnt exist in our database, it puts it in
+        #if it doesnt exist in our database, it saves successfully
+
+        #save the events associated with the hero. validations will check whether or not the event exists already.
+        number_of_events = @hero_results['events']['items']
+
+        number_of_events.each do |event|
+          @new_event = Event.new
+          @new_event.name = event['name']
+
+          if @new_event.save
+            #if the event doesn't exist, save it and pair it with the associating hero
+            @new_heroes_event = Meeting.new
+            @new_heroes_event.hero = @new_hero
+            @new_heroes_event.event = @new_event
+            @new_heroes_event.save
+          else
+            #if the event already exists, find the event of the same name and associate it with the hero.
+
+            @new_heroes_event = Meeting.new
+            @new_heroes_event.hero = @new_hero
+            @new_heroes_event.event = Event.where(name: @new_event.name)
+            @new_heroes_event.save
+          end
+        end
+
         flash[:notice] = "#{@new_hero.name} has been added!"
         redirect_to root_path
       else
 
         #can't have duplicate heroes!
-        flash[:error] = "This hero has already been added to the list!"
+        flash[:notice] = "This hero has already been added to the list!"
         redirect_to root_path
       end
     else
@@ -52,6 +78,7 @@ class HeroesController < ApplicationController
 
   def show
     @hero = Hero.find(params[:id])
+    @events = Meeting.where(hero: @hero)
   end
 
   private

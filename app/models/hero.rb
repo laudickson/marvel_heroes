@@ -1,6 +1,6 @@
 class Hero < ActiveRecord::Base
-  has_many :heroesevents
-  has_many :events, through: :heroesevents
+  has_many :heroevents
+  has_many :events, through: :heroevents
 
   validates :name, uniqueness: true, presence: true
   validates :description, presence: true

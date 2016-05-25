@@ -2,3 +2,8 @@
 
 %h3 Description
 %p= @hero.description
+
+%h4= "List of Events #{@hero.name} has been in:"
+%ul.inline-list
+  - @events.each do |event|
+    %li= event.name
