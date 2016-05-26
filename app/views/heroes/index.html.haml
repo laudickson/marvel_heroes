@@ -9,9 +9,9 @@
     =render template: "heroes/new.html.haml"
 %br
 .row
+  %h1= "Table of logged heroes: "
   .small-12.small-centered.columns
     #hero_list
-      %h1= "Table of logged heroes: "
       %table#hero_table{cellspacing: "0", cellpadding: "0"}
         %thead
           %tr
@@ -29,8 +29,29 @@
               %td= "#{hero.series_total}"
               %td= "#{hero.story_total}"
               %td= "#{hero.event_total}"
+
 .row
+  .small-12.columns
+    = high_chart("piechart_comic", @piechart_comic) do |c|
+      = raw "options.tooltip.formatter = function() {return '<b> '+ this.point.name +'</b>: '+ this.y +' comics ';}"
+      = raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"
+
+.row
+  .small-12.columns
+    = high_chart("piechart_series", @piechart_series) do |c|
+      = raw "options.tooltip.formatter = function() {return '<b> '+ this.point.name +'</b>: '+ this.y +' series ';}"
+      = raw "options.plotOptions.pie.dataLabels.formatter = function() { if (this.y > 5) return this.point.name; }"
+
+
+.row
+  %h1 Common Events!
   .small-12.small-centered.columns
-    %ul
+    %ul.small-block-grid-3
       - @events.each do |event|
-        %li= event.name
+        - if Meeting.where(event: event).length > 1
+          %li
+            %h3= event.name
+            %p Heroes that have shared this event:
+            - Meeting.where(event: event).each do |hero|
+              %span= Hero.where(id: hero.hero_id)[0].name + ','
+              %br

@@ -7,6 +7,7 @@ class CreateHeroes < ActiveRecord::Migration
       t.string :series_total
       t.string :story_total
       t.string :event_total
+      t.string :avatar_url
     end
   end
 end

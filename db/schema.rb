@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20160523191528) do
     t.string "series_total"
     t.string "story_total"
     t.string "event_total"
+    t.string "avatar_url"
   end
 
   create_table "meetings", force: :cascade do |t|

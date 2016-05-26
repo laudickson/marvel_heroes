@@ -1,9 +1,20 @@
 %h1= @hero.name
 
-%h3 Description
-%p= @hero.description
+.row
+  .small-12.small-centered.columns
+    %img{src: @hero.avatar_url}
 
-%h4= "List of Events #{@hero.name} has been in:"
-%ul.inline-list
-  - @events.each do |event|
-    %li= event.name
+.row
+  .small-10.small-centered.columns
+    %h3 Some background:
+    - if @hero.description.empty?
+      %p Sorry, there isn't an available description for this character :(
+    - else
+      %p= @hero.description
+.row
+  .small-10.small-centered.columns
+    %h4= "List of Events #{@hero.name} has been in:"
+    %ul
+      - @meetings.each do |event|
+        %li= Event.where(id: event.event_id)[0].name
+= link_to "List of all logged heroes", root_path, class: "small button tiny"

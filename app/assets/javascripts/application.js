@@ -16,8 +16,14 @@
 //= require_tree .
 //= require jquery-tablesorter
 
+//= require highcharts/highcharts
+//= require highcharts/highcharts-more
+//= require highcharts/highstock
+
 $(function(){ $(document).foundation(); });
 
 $(function(){
-  $('#hero_table').tablesorter({ sortList: [[1,0], [2,0], [3,0]] });
+  $('#hero_table').tablesorter({
+    //sorts by second column, then third, then fourth (comic, series, stories)
+    sortList: [[1,1], [2,1], [3,1]] });
 });

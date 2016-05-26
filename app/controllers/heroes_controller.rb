@@ -3,6 +3,75 @@ class HeroesController < ApplicationController
     @heroes = Hero.all
     @new_hero = Hero.new
     @events = Event.all
+
+    #piechart data for comic
+    @hero_chart_data_comic = []
+    @heroes.each do |hero|
+      data = []
+      data[0] = hero.name
+      data[1] = hero.comic_total.to_i
+
+      @hero_chart_data_comic << data
+    end
+
+    #piechart data for series
+    @hero_chart_data_series = []
+    @heroes.each do |hero|
+      data = []
+      data[0] = hero.name
+      data[1] = hero.series_total.to_i
+
+      @hero_chart_data_series << data
+    end
+
+    #piechart helper for popularty by comic
+    @piechart_comic = LazyHighCharts::HighChart.new('pie') do |f|
+          f.chart({:defaultSeriesType=>"pie" , :margin=> [50, 200, 60, 170]} )
+          series = {
+                   :type=> 'pie',
+                   :name=> 'Total Comics: ',
+                   :data=> @hero_chart_data_comic
+          }
+          f.series(series)
+          f.options[:title][:text] = "Hero Popularity by Comic"
+          f.legend(:layout=> 'vertical',:style=> {:left=> 'auto', :bottom=> 'auto',:right=> '50px',:top=> '100px'})
+          f.plot_options(:pie=>{
+            :allowPointSelect=>true,
+            :cursor=>"pointer" ,
+            :dataLabels=>{
+              :enabled=>true,
+              :color=>"black",
+              :style=>{
+                :font=>"13px Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          })
+    end
+
+    #piechart helper for popularity by series
+    @piechart_series = LazyHighCharts::HighChart.new('pie') do |f|
+          f.chart({:defaultSeriesType=>"pie" , :margin=> [50, 200, 60, 170]} )
+          series = {
+                   :type=> 'pie',
+                   :name=> 'Total Series: ',
+                   :data=> @hero_chart_data_series
+          }
+          f.series(series)
+          f.options[:title][:text] = "Hero Popularity by Series"
+          f.legend(:layout=> 'vertical',:style=> {:left=> 'auto', :bottom=> 'auto',:right=> '50px',:top=> '100px'})
+          f.plot_options(:pie=>{
+            :allowPointSelect=>true,
+            :cursor=>"pointer" ,
+            :dataLabels=>{
+              :enabled=>true,
+              :color=>"black",
+              :style=>{
+                :font=>"13px Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          })
+    end
+
   end
 
   def create
@@ -30,6 +99,7 @@ class HeroesController < ApplicationController
       @new_hero.series_total = @hero_results['series']['available']
       @new_hero.story_total = @hero_results['stories']['available']
       @new_hero.event_total = @hero_results['events']['available']
+      @new_hero.avatar_url = @hero_results['thumbnail']['path'] + '.' + @hero_results['thumbnail']['extension']
 
       #create new event object
       #checking to see if hero has already been added
@@ -43,7 +113,6 @@ class HeroesController < ApplicationController
         number_of_events.each do |event|
           @new_event = Event.new
           @new_event.name = event['name']
-
           if @new_event.save
             #if the event doesn't exist, save it and pair it with the associating hero
             @new_heroes_event = Meeting.new
@@ -55,7 +124,7 @@ class HeroesController < ApplicationController
 
             @new_heroes_event = Meeting.new
             @new_heroes_event.hero = @new_hero
-            @new_heroes_event.event = Event.where(name: @new_event.name)
+            @new_heroes_event.event = Event.where(name: @new_event.name)[0]
             @new_heroes_event.save
           end
         end
@@ -78,7 +147,7 @@ class HeroesController < ApplicationController
 
   def show
     @hero = Hero.find(params[:id])
-    @events = Meeting.where(hero: @hero)
+    @meetings = Meeting.where(hero: @hero)
   end
 
   private

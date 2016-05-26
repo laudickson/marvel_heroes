@@ -13,6 +13,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dotenv-rails'
 gem 'jquery-tablesorter'
+gem 'lazy_high_charts'
 
 group :development, :test do
   gem 'pry-rails'

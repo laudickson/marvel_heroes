@@ -39,11 +39,27 @@ feature 'user adds a new hero' do
     expect(page).to have_content("This hero has already been added to the list!")
   end
 
-  scenario 'user can view common events between heroes' do
+  scenario 'user can view events from added hero' do
     fill_in 'Enter Hero Name', with: 'Captain America'
     click_on 'Add Hero'
     click_on 'Captain America'
 
-    expect(page).to have_content("afasd")
+    expect(page).to have_content('Steve Rogers')
+    expect(page).to have_content("Acts of Vengeance!")
+    expect(page).to have_content("Age of X")
+    expect(page).to have_content("Armor Wars")
+    expect(page).to have_content("Infinity War")
+  end
+
+  scenario 'user can view common heroes on an event' do
+    fill_in 'Enter Hero Name', with: 'Captain America'
+    click_on 'Add Hero'
+
+    fill_in 'Enter Hero Name', with: 'Spider-Man'
+    click_on 'Add Hero'
+
+    expect(page).to have_content('Acts of Vengeance!')
+    expect(page).to have_content('Heroes that have shared this event:')
+    expect(page).to have_content('Captain America, Spider-Man')
   end
 end
