@@ -2,7 +2,7 @@ This small app lets you add in your favorite Marvel superheroes such as as [Iron
 
 Before you install:
 
-This assumes you have [PostgreSQL])(http://www.postgresql.org) installed!
+This assumes you have [PostgreSQL](http://www.postgresql.org) installed!
 
 This also assumes that you have a [Marvel API account](http://developer.marvel.com/). If you don't, sign up! It's free.
 
